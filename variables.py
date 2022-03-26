@@ -1,5 +1,6 @@
 from enum import Enum
 from pydantic import BaseModel, conint, confloat
+from typing import List
 
 
 class Age(str, Enum):
@@ -18,6 +19,7 @@ class DAYTYPE(str, Enum):
     SATURDAY = "06"
     SUNDAY = "07"
     HOLIDAY = "08"
+    UNKNOWN = "00"
 
 
 class Distance(str, Enum):
@@ -107,13 +109,13 @@ class StayTime(str, Enum):
 
 
 class TripInput(BaseModel):
-    region_type: RegionType
-    federal_state: FederalState
-    homogeneous_group: HomogeneousGroup
-    mobility_group: MobilityGroup
-    age: Age
-    start_location_of_first_trip: StartLocation
-    day_type: DAYTYPE
+    region_type: RegionType = RegionType.UNKNOWN
+    federal_state: FederalState = FederalState.UNKNOWN
+    homogeneous_group: HomogeneousGroup = HomogeneousGroup.UNKNOWN
+    mobility_group: MobilityGroup = MobilityGroup.UNKNOWN
+    age: Age = Age.UNKNOWN
+    start_location_of_first_trip: StartLocation = StartLocation.UNKNOWN
+    day_type: DAYTYPE = DAYTYPE.UNKNOWN
 
 
 class Trip(BaseModel):
@@ -128,5 +130,5 @@ class Trip(BaseModel):
 
 class TripChain(BaseModel):
     length: conint(ge=0)
-    purpose_chain: [Purpose]
-    trips: [Trip]
+    purpose_chain: List[Purpose]
+    trips: List[Trip]

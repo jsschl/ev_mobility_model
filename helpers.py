@@ -1,10 +1,10 @@
 import random
 from pydantic import confloat
-from typing import Union
+from typing import Union, List
 
 
 def generate_int_from_cumulative_distribution(
-        cumulative_distribution: [confloat(ge=0.0)],
+        cumulative_distribution: List[confloat(ge=0.0)],
         seed: Union[int, None] = None
 ) -> int:
     if seed is not None:

@@ -10,7 +10,7 @@ class Age(str, Enum):
     UNKNOWN = "00"
 
 
-class DAYTYPE(str, Enum):
+class DayType(str, Enum):
     MONDAY = "01"
     TUESDAY = "02"
     WEDNESDAY = "03"
@@ -115,7 +115,7 @@ class TripInput(BaseModel):
     mobility_group: MobilityGroup = MobilityGroup.UNKNOWN
     age: Age = Age.UNKNOWN
     start_location_of_first_trip: StartLocation = StartLocation.UNKNOWN
-    day_type: DAYTYPE = DAYTYPE.UNKNOWN
+    day_type: DayType = DayType.UNKNOWN
 
 
 class Trip(BaseModel):
@@ -132,3 +132,9 @@ class TripChain(BaseModel):
     length: conint(ge=0)
     purpose_chain: List[Purpose]
     trips: List[Trip]
+
+
+class VariableNames(str, Enum):
+    TRIP_CHAIN_LENGTH = "TripChainLength"
+    PURPOSES_VALUES = "PurposesValues"
+    PURPOSES = "Purposes"

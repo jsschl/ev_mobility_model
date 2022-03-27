@@ -43,17 +43,17 @@ class MobilityGroup(str, Enum):
     UNKNOWN = "00"
 
 
-class Purpose(str, Enum):
-    WORK = "01"
-    BUSINESS = "02"
-    EDUCATION = "03"
-    SHOPPING = "04"
-    PRIVATE_EXECUTIONS = "05"
-    COMPANIONSHIP = "07"
-    LEISURE = "06"
-    HOME = "08"
-    BACK = "09"
-    UNKNOWN = "00"
+class Purpose(int, Enum):
+    WORK = 1
+    BUSINESS = 2
+    EDUCATION = 3
+    SHOPPING = 4
+    PRIVATE_EXECUTIONS = 5
+    COMPANIONSHIP = 6
+    LEISURE = 7
+    HOME = 8
+    BACK = 9
+    UNKNOWN = 0
 
 
 class RegionType(str, Enum):

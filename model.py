@@ -38,11 +38,13 @@ class TripChainGenerator(BaseModel):
     def get_distribution(
             self,
             variable: str,
-            key: Union[str, conint(ge=0)])\
-            -> Union[List[confloat(ge=0.0, le=1.0)], str]:
+            key: Union[str, conint(ge=0)]
+    ) -> Union[List[confloat(ge=0.0, le=1.0)], str]:
+
         return self.conditional_distributions[variable][key]
 
     def sample_trip_chain_length(self) -> conint(ge=0, le=12):
+
         key = self.trip_input.mobility_group + self.trip_input.start_location_of_first_trip + self.trip_input.day_type \
               + self.trip_input.homogeneous_group
         return generate_int_from_cumulative_distribution(
@@ -52,7 +54,11 @@ class TripChainGenerator(BaseModel):
             )
         )
 
-    def sample_purpose_chain(self, trip_chain_length) -> List[conint(ge=0, le=9)]:
+    def sample_purpose_chain(
+            self,
+            trip_chain_length: conint(ge=0, le=12)
+    ) -> List[Purpose]:
+
         if trip_chain_length == 0:
             return []
         else:
@@ -70,7 +76,37 @@ class TripChainGenerator(BaseModel):
                 trip_chain_length
             )[sampled_index])
 
-            return [int(value) for value in sampled_purpose_chain]
+            return [Purpose(int(value)) for value in sampled_purpose_chain]
+
+    def sample_first_start(
+            self,
+            trip_chain_length: conint(ge=0, le=12),
+            purpose: Purpose,
+            next_purpose: Purpose
+    ) -> confloat(ge=0.0):
+        # todo
+        return None
+
+    def sample_trip_chain(self):
+        length = self.sample_trip_chain_length()
+        purpose_chain = self.sample_purpose_chain(length)
+        return self.sample_trip_chain_from_purpose_chain(purpose_chain=purpose_chain)
+
+    def sample_trip_chain_from_purpose_chain(self,
+                                             purpose_chain: List[Purpose]
+                                             ) -> List[Trip]:
+        if purpose_chain is []:
+            return []
+        else:
+            if len(purpose_chain) == 1:
+                next_purpose = Purpose.UNKNOWN
+            else:
+                next_purpose = purpose_chain[1]
+            first_start = self.sample_first_start(len(purpose_chain),
+                                                  purpose=purpose_chain[0],
+                                                  next_purpose=next_purpose)
+            # todo continue
+
 
 
 if __name__ == "__main__":

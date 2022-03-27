@@ -1,5 +1,5 @@
 import random
-from pydantic import confloat
+from pydantic import confloat, conint
 from typing import Union, List
 
 
@@ -17,5 +17,9 @@ def generate_int_from_cumulative_distribution(
         else:
             i += 1
     return len(cumulative_distribution) - 1
+
+
+def stringify(number: conint(ge=0, le=99)) -> str:
+    return f"{number:02d}"
 
 

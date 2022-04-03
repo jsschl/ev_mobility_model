@@ -31,6 +31,11 @@ The model uses two major assumptions
 - Due to the chosen graph structure it adheres the most important variable interdependencies
 - It does not use magic rules and numbers
 
+## Example Run
+Just run model.py for an exemplary run to sample 200 trip chains with a fixed seed.
+
+    python model.py 
+
 ## Exemplary Visualization
 Resulting weekly behavior of a large fleet with average users. 
 ![](img/placeofstayGER.png)

@@ -1,14 +1,10 @@
 import random
-from pydantic import confloat, conint
-from typing import Union, List
+from variables import *
 
 
 def generate_int_from_cumulative_distribution(
         cumulative_distribution: List[confloat(ge=0.0)],
-        seed: Union[int, None] = None
 ) -> int:
-    if seed is not None:
-        random.seed(seed)
     r = random.random()
     i = 0
     for value in cumulative_distribution:
@@ -17,6 +13,15 @@ def generate_int_from_cumulative_distribution(
         else:
             i += 1
     return len(cumulative_distribution) - 1
+
+
+def get_purposes(purpose_chain: List[Purpose], index: int, last: bool):
+    purpose = purpose_chain[index]
+    if last:
+        next_purpose = Purpose.UNKNOWN
+    else:
+        next_purpose = purpose_chain[index+1]
+    return purpose, next_purpose
 
 
 def stringify(number: conint(ge=0, le=99)) -> str:

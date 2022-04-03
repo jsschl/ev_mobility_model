@@ -1,6 +1,9 @@
 from enum import Enum
 from pydantic import BaseModel, conint, confloat
-from typing import List
+from typing import List, Union
+
+MINIMUM_SPEED = 2.0  # km/h
+MINIMUM_DISTANCE = 0.5  # km
 
 
 class Age(str, Enum):
@@ -20,6 +23,15 @@ class DayType(str, Enum):
     SUNDAY = "07"
     HOLIDAY = "08"
     UNKNOWN = "00"
+
+
+def get_distance_category(distance: confloat(ge=0.0)):
+    if distance <= 5.0:
+        return Distance.SHORT
+    elif distance <= 15.0:
+        return Distance.MEDIUM
+    else:
+        return Distance.LONG
 
 
 class Distance(str, Enum):
@@ -67,6 +79,25 @@ class RegionType(str, Enum):
     UNKNOWN = "00"
 
 
+class Resolution(float, Enum):
+    TIME = 0.5
+    DISTANCE = 5.0
+    SPEED = 5.0
+
+
+def get_start_category(time: confloat(ge=0.0)):
+    if time <= 10.0:
+        return Start.MORNING
+    elif time <= 14.0:
+        return Start.MIDDAY
+    elif time <= 17.0:
+        return Start.AFTERNOON
+    elif time <= 24.0:
+        return Start.EVENING
+    else:
+        return Start.UNKNOWN
+
+
 class Start(str, Enum):
     MORNING = "01"  # before 10am
     MIDDAY = "02"  # 10am to 2pm
@@ -101,14 +132,27 @@ class FederalState(str, Enum):
     UNKNOWN = "00"
 
 
+def get_staytime_category(time: confloat(ge=0.0)):
+    if time is None:
+        return StayTime.UNKNOWN
+    if time <= 1.0:
+        return StayTime.SHORT
+    elif time <= 4.0:
+        return StayTime.MEDUIM
+    elif time <= 24.0:
+        return StayTime.LONG
+    else:
+        return StayTime.UNKNOWN
+
+
 class StayTime(str, Enum):
     SHORT = "01"  # up to one hour
     MEDUIM = "02"  # one to four hours
     LONG = "03"  # four to 24 hours
-    UNKNOWN = "04"
+    UNKNOWN = "00"
 
 
-class TripInput(BaseModel):
+class TripChainInput(BaseModel):
     region_type: RegionType = RegionType.UNKNOWN
     federal_state: FederalState = FederalState.UNKNOWN
     homogeneous_group: HomogeneousGroup = HomogeneousGroup.UNKNOWN
@@ -119,13 +163,13 @@ class TripInput(BaseModel):
 
 
 class Trip(BaseModel):
-    start: confloat(ge=0.0)  # todo change that to datetime object
+    departure: confloat(ge=0.0)  # todo change that to datetime object
     distance: confloat(ge=0.0)
     duration: confloat(ge=0.0)  # todo change that to time object
     mean_speed = confloat(ge=0.0)
-    end: confloat(ge=0.0)  # todo change that to datetime object
+    arrival: confloat(ge=0.0)  # todo change that to datetime object
     purpose: Purpose
-    staytime: confloat(ge=0.0)  # todo change that to time object
+    staytime: Union[confloat(ge=0.0), None]  # todo change that to time object
 
 
 class TripChain(BaseModel):
@@ -138,3 +182,7 @@ class VariableNames(str, Enum):
     TRIP_CHAIN_LENGTH = "TripChainLength"
     PURPOSES_VALUES = "PurposesValues"
     PURPOSES = "Purposes"
+    FIRST_START = "FirstStart"
+    STAYTIME = "StayTime"
+    DISTANCE = "Distance"
+    SPEED = "Speed"

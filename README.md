@@ -41,3 +41,6 @@ Resulting weekly behavior of a large fleet with working persons and car users.
 ## Graph Structure
 This visual description might help to understand how the variables are sampled. 
 ![](img/mobmodel_WIP.png)
+
+# Licence
+The software is licensed under [MIT License](https://github.com/jsschl/ev_mobility_model/blob/main/LICENSE).

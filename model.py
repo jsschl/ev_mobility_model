@@ -192,19 +192,13 @@ if __name__ == "__main__":
     generator = TripChainGenerator()
 
     # sampling with different seeds
-    for seed in range(100):
+    for seed in range(200):
         generator.set_seed(seed)
 
-        # manipulate trip input data
+        # exemplary trip chain input data manipulation
         generator.trip_chain_input.day_type = DayType.MONDAY
         generator.set_working_distance(50.0)
 
         # exemplary samples
-        sampled_length = generator.sample_trip_chain_length()
-        print('Length: ' + str(sampled_length))
-
-        sampled_purpose_chain = generator.sample_purpose_chain(sampled_length)
-        print('Purpose Chain: ' + str(sampled_purpose_chain))
-
-        sampled_trip_chain = generator.sample_trip_chain_from_purpose_chain(sampled_purpose_chain)
+        sampled_trip_chain = generator.sample_trip_chain()
         print('Trip Chain: ' + str(sampled_trip_chain))

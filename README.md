@@ -11,8 +11,7 @@ Bibtex:
 
     @phdthesis{Schlund2021,
       author      = {Jonas Schlund},
-      title       = {Electric Vehicle Charging Flexibility for Ancillary Services in the German Electrical Power System},
-      type        = {doctoralthesis},
+      title       = {{Electric Vehicle Charging Flexibility for Ancillary Services in the German Electrical Power System}},
       pages       = {308},
       school      = {Friedrich-Alexander-Universit{\"a}t Erlangen-N{\"u}rnberg (FAU)},
       year        = {2021},
